@@ -1,6 +1,7 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class Board {
@@ -18,12 +19,12 @@ class Board {
         }
     }
 
-    private Square getSquare(Coordinate coordinate){
-        assert coordinate!=null && coordinate.isValid();
+    private Square getSquare(Coordinate coordinate) {
+        assert coordinate != null && coordinate.isValid();
         return this.squares[coordinate.getRow()][coordinate.getColumn()];
     }
 
-    void put(Coordinate coordinate, Piece piece){
+    void put(Coordinate coordinate, Piece piece) {
         assert piece != null;
         this.getSquare(coordinate).put(piece);
     }
@@ -44,24 +45,25 @@ class Board {
     boolean isEmpty(Coordinate coordinate) {
         return this.getSquare(coordinate).isEmpty();
     }
-    
+
     Color getColor(Coordinate coordinate) {
         return this.getSquare(coordinate).getColor();
     }
 
     List<Piece> getPieces(Color color) {
         List<Piece> pieces = new ArrayList<Piece>();
-        for (int i = 0; i < this.getDimension(); i++) {
-            for (int j = 0; j < this.getDimension(); j++) {
-                pieces.add(this.squares[i][j].getPiece());
+        Arrays.asList(squares);
+        for (Square x[] : squares) {
+            for (Square y : x) {
+                pieces.add(y.getPiece());
             }
         }
-		return pieces;
-	}
-    
+        return pieces;
+    }
+
     int getDimension() {
-		return Board.DIMENSION;
-	}
+        return Board.DIMENSION;
+    }
 
     @Override
     public String toString() {
@@ -74,7 +76,7 @@ class Board {
         return string;
     }
 
-    private String toStringHorizontalNumbers(){
+    private String toStringHorizontalNumbers() {
         String string = " ";
         for (int j = 0; j < Board.DIMENSION; j++) {
             string += j;
@@ -82,14 +84,14 @@ class Board {
         return string + "\n";
     }
 
-    private String toStringHorizontalPiecesWithNumbers(int row){
+    private String toStringHorizontalPiecesWithNumbers(int row) {
         String string = "" + row;
         for (int j = 0; j < this.getDimension(); j++) {
             Piece piece = this.getPiece(new Coordinate(row, j));
             if (piece == null) {
                 string += " ";
             } else {
-                final String[] letters = {"b","n"};
+                final String[] letters = { "b", "n" };
                 string += letters[piece.getColor().ordinal()];
             }
         }
