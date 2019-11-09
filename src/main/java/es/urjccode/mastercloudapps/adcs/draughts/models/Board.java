@@ -1,16 +1,15 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-class Board {
+public class Board {
 
     private static final int DIMENSION = 8;
 
     private Square[][] squares;
 
-    Board() {
+    public Board() {
         this.squares = new Square[this.getDimension()][this.getDimension()];
         for (int i = 0; i < this.getDimension(); i++) {
             for (int j = 0; j < this.getDimension(); j++) {
@@ -26,7 +25,7 @@ class Board {
 
     void put(Coordinate coordinate, Piece piece) {
         assert piece != null;
-        this.getSquare(coordinate).put(piece);
+        this.squares[coordinate.getRow()][coordinate.getColumn()].put(piece);
     }
 
     Piece remove(Coordinate coordinate) {
@@ -52,7 +51,6 @@ class Board {
 
     List<Piece> getPieces(Color color) {
         List<Piece> pieces = new ArrayList<Piece>();
-        Arrays.asList(squares);
         for (Square x[] : squares) {
             for (Square y : x) {
                 pieces.add(y.getPiece());
@@ -61,7 +59,7 @@ class Board {
         return pieces;
     }
 
-    int getDimension() {
+    public int getDimension() {
         return Board.DIMENSION;
     }
 
@@ -78,7 +76,7 @@ class Board {
 
     private String toStringHorizontalNumbers() {
         String string = " ";
-        for (int j = 0; j < Board.DIMENSION; j++) {
+        for (int j = 0; j < getDimension(); j++) {
             string += j;
         }
         return string + "\n";
@@ -86,7 +84,7 @@ class Board {
 
     private String toStringHorizontalPiecesWithNumbers(int row) {
         String string = "" + row;
-        for (int j = 0; j < this.getDimension(); j++) {
+        for (int j = 0; j < getDimension(); j++) {
             Piece piece = this.getPiece(new Coordinate(row, j));
             if (piece == null) {
                 string += " ";

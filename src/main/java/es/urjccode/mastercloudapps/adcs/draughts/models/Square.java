@@ -1,6 +1,6 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
-class Square {
+public class Square {
 
     private Piece piece;
 

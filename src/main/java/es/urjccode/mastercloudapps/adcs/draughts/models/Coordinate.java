@@ -27,21 +27,15 @@ public class Coordinate {
     public int diagonalDistance(Coordinate coordinate) {
         assert coordinate != null && coordinate.isValid();
         assert this.isValid() && this.isDiagonal(coordinate);
-        return Math.abs(this.row - coordinate.row);
+        return Math.abs(this.getRow() - coordinate.getRow());
     }
 
     public Coordinate betweenDiagonal(Coordinate coordinate) {
         assert coordinate != null && coordinate.isValid();
         assert this.isValid() && this.diagonalDistance(coordinate) == 2;
-        int rowShift = 1;
-        if (coordinate.row - this.row < 0) {
-            rowShift = -1;
-        }
-        int columnShift = 1;
-        if (coordinate.column - this.column < 0) {
-            columnShift = -1;
-        }
-        return new Coordinate(this.row + rowShift, this.column + columnShift);
+        int rowShift = coordinate.getRow() - this.getRow() < 0 ? -1 : 1;
+        int columnShift = coordinate.getColumn() - this.getColumn() < 0 ? -1 : 1;
+        return new Coordinate(this.getRow() + rowShift, this.getColumn() + columnShift);
     }
 
     public boolean isBlack() {
@@ -49,11 +43,11 @@ public class Coordinate {
         return (this.row + this.column) % 2 != 0;
     }
 
-    int getRow() {
+    public int getRow() {
         return this.row;
     }
 
-    int getColumn() {
+    public int getColumn() {
         return this.column;
     }
 
