@@ -19,6 +19,11 @@ public abstract class Controller {
 		return this.game.getColor(coordinate);
 	}
 
+	public String getColorInitial(Coordinate coordinate) {
+		return this.game.getColor(coordinate) == null ? Color.NONE.getColorInitial()
+				: this.game.getColor(coordinate).getColorInitial();
+	}
+
 	public int getDimension() {
 		return this.game.getDimension();
 	}

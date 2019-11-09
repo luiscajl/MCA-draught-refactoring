@@ -9,8 +9,8 @@ public class Console {
 	private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	public String readString(String title) {
-		this.write(title);
 		String input = "";
+		this.write(title);
 		try {
 			input = bufferedReader.readLine();
 		} catch (IOException ex) {
@@ -51,8 +51,16 @@ public class Console {
 		System.out.print(string);
 	}
 
+	public void write(int number) {
+		System.out.print(number);
+	}
+
 	public void writeln(String string) {
 		System.out.println(string);
+	}
+
+	public void writeln(int number) {
+		System.out.println(number);
 	}
 
 	private void writeError(String formato) {

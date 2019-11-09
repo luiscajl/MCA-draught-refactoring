@@ -89,8 +89,7 @@ public class Board {
             if (piece == null) {
                 string += " ";
             } else {
-                final String[] letters = { "b", "n" };
-                string += letters[piece.getColor().ordinal()];
+                string += piece.getColor().getColorInitial();
             }
         }
         return string + row + "\n";
