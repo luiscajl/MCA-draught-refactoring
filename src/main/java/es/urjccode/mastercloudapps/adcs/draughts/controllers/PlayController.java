@@ -28,6 +28,9 @@ public class PlayController extends Controller {
 	public Color getColor() {
 		return game.getColor();
 	}
+	public String getColorName() {
+		return game.getColor().getName();
+	}
 
 	public boolean isBlocked() {
 		return game.isBlocked();

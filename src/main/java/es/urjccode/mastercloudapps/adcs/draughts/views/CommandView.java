@@ -6,14 +6,12 @@ import es.urjccode.mastercloudapps.adcs.draughts.models.Coordinate;
 
 public class CommandView extends SubView {
 
-    private static final String[] COLORS = { "blancas", "negras" };
-
     public CommandView() {
         super();
     }
 
     public void interact(PlayController playController) {
-        String color = CommandView.COLORS[playController.getColor().ordinal()];
+        String color = playController.getColorName();
         Error error = null;
         GameView gameView = new GameView();
         do {
@@ -34,7 +32,6 @@ public class CommandView extends SubView {
 
     private int calculateRow(int row) {
         return row / 10 - 1;
-
     }
 
     private int calculateColumn(int column) {
