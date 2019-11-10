@@ -27,7 +27,7 @@ public class Square {
 
 	public Color getColor() {
         if (piece == null){
-            return null;
+            return Color.NONE;
         }
 		return this.piece.getColor();
 	}

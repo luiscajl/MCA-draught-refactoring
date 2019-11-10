@@ -21,7 +21,7 @@ public class GameTest {
                 if (coordinate.isBlack()){
                     assertEquals(Color.BLACK, color);
                 } else {
-                    assertNull(color);
+                    assertEquals(color, Color.NONE);
                 }
             }
         }
@@ -32,7 +32,7 @@ public class GameTest {
                 if (coordinate.isBlack()){
                     assertEquals(Color.WHITE, color);
                 } else {
-                    assertNull(color);
+                    assertEquals(color, Color.NONE);
                 }
             }
         }
@@ -111,12 +111,12 @@ public class GameTest {
         Coordinate origin = new Coordinate(5, 0);
         Coordinate target = new Coordinate(4, 1);
         this.game.move(origin, target);
-        assertNull(this.game.getColor(origin));
+        assertEquals( this.game.getColor(origin), Color.NONE);
         assertEquals(Color.WHITE, this.game.getColor(target));
         origin = new Coordinate(2, 3);
         target = new Coordinate(3, 4);
         this.game.move(origin, target);
-        assertNull(this.game.getColor(origin));
+        assertEquals(this.game.getColor(origin), Color.NONE);
         assertEquals(Color.BLACK, this.game.getColor(target));
     }
 
@@ -128,8 +128,8 @@ public class GameTest {
             { new Coordinate(5, 2), new Coordinate(4, 3) },
             { new Coordinate(3, 0), new Coordinate(5, 2) }, 
         }));
-        assertNull(game.getColor(new Coordinate(3, 0)));
-        assertNull(game.getColor(new Coordinate(4, 1)));
+        assertEquals(game.getColor(new Coordinate(3, 0)), Color.NONE);
+        assertEquals(game.getColor(new Coordinate(4, 1)), Color.NONE);
         assertEquals(Color.BLACK, game.getColor(new Coordinate(5, 2)));
     }
 
