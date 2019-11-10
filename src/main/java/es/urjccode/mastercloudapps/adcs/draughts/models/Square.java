@@ -4,20 +4,20 @@ public class Square {
 
     private Piece piece;
 
-    Square() {
+    public Square() {
     }
 
-    void put(Piece piece) {
+    public  void put(Piece piece) {
         this.piece = piece;
     }
 
-    Piece remove() {
+    public Piece remove() {
         Piece piece = this.piece;
         this.piece = null;
         return piece;
     }
 
-    Piece getPiece() {
+    public  Piece getPiece() {
         return this.piece;
     }
 

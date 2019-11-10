@@ -18,38 +18,33 @@ public class Board {
         }
     }
 
-    private Square getSquare(Coordinate coordinate) {
-        assert coordinate != null && coordinate.isValid();
-        return this.squares[coordinate.getRow()][coordinate.getColumn()];
-    }
-
-    void put(Coordinate coordinate, Piece piece) {
+    public void put(Coordinate coordinate, Piece piece) {
         assert piece != null;
         this.squares[coordinate.getRow()][coordinate.getColumn()].put(piece);
     }
 
-    Piece remove(Coordinate coordinate) {
+    public Piece remove(Coordinate coordinate) {
         assert this.getPiece(coordinate) != null;
         return this.getSquare(coordinate).remove();
     }
 
-    void move(Coordinate origin, Coordinate target) {
+    public void move(Coordinate origin, Coordinate target) {
         this.put(target, this.remove(origin));
     }
 
-    Piece getPiece(Coordinate coordinate) {
+    public Piece getPiece(Coordinate coordinate) {
         return this.getSquare(coordinate).getPiece();
     }
 
-    boolean isEmpty(Coordinate coordinate) {
+    public boolean isEmpty(Coordinate coordinate) {
         return this.getSquare(coordinate).isEmpty();
     }
 
-    Color getColor(Coordinate coordinate) {
+    public Color getColor(Coordinate coordinate) {
         return this.getSquare(coordinate).getColor();
     }
 
-    List<Piece> getPieces(Color color) {
+    public List<Piece> getPieces(Color color) {
         List<Piece> pieces = new ArrayList<Piece>();
         for (Square x[] : squares) {
             for (Square y : x) {
@@ -63,15 +58,32 @@ public class Board {
         return Board.DIMENSION;
     }
 
-    @Override
-    public String toString() {
-        String string = "";
-        string += this.toStringHorizontalNumbers();
-        for (int i = 0; i < this.getDimension(); i++) {
-            string += this.toStringHorizontalPiecesWithNumbers(i);
+    public Error isValidMovement(Coordinate origin, Coordinate target, Color color) {
+        assert origin != null && target != null && color != null;
+        if (!origin.isValid() || !target.isValid()) {
+            return Error.OUT_COORDINATE;
         }
-        string += this.toStringHorizontalNumbers();
-        return string;
+        if (this.isEmpty(origin)) {
+            return Error.EMPTY_ORIGIN;
+        }
+        if (this.getColor(origin) != color) {
+            return Error.OPPOSITE_PIECE;
+        }
+        Error errorPiece = this.getPiece(origin).canMove(origin, target);
+        if (errorPiece != null) {
+            return errorPiece;
+        }
+        if (!this.isEmpty(target)) {
+            return Error.NOT_EMPTY_TARGET;
+        }
+        if (origin.diagonalDistance(target) == 2) {
+            Coordinate between = origin.betweenDiagonal(target);
+            if (this.getPiece(between) == null) {
+                return Error.EATING_EMPTY;
+            }
+            this.remove(between);
+        }
+        return null;
     }
 
     private String toStringHorizontalNumbers() {
@@ -93,6 +105,22 @@ public class Board {
             }
         }
         return string + row + "\n";
+    }
+
+    private Square getSquare(Coordinate coordinate) {
+        assert coordinate != null && coordinate.isValid();
+        return this.squares[coordinate.getRow()][coordinate.getColumn()];
+    }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += this.toStringHorizontalNumbers();
+        for (int i = 0; i < this.getDimension(); i++) {
+            string += this.toStringHorizontalPiecesWithNumbers(i);
+        }
+        string += this.toStringHorizontalNumbers();
+        return string;
     }
 
 }

@@ -14,9 +14,12 @@ public class PlayController extends Controller {
 	}
 
 	public Error move(Coordinate origin, Coordinate target) {
-		Error error = this.game.move(origin, target);
-		if (this.game.isBlocked()) {
-			this.state.next();
+		Error error = game.isvalidMovement(origin, target);
+		if (error == null) {
+			game.move(origin, target);
+			if (isBlocked()) {
+				state.next();
+			}
 		}
 		return error;
 	}
@@ -28,6 +31,7 @@ public class PlayController extends Controller {
 	public Color getColor() {
 		return game.getColor();
 	}
+
 	public String getColorName() {
 		return game.getColor().getName();
 	}
