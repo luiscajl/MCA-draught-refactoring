@@ -1,35 +1,36 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
-public class Square {
+class Square {
 
     private Piece piece;
 
-    public Square() {
+    Square() {
     }
 
-    public  void put(Piece piece) {
+    void put(Piece piece) {
+        assert piece != null;
         this.piece = piece;
     }
 
-    public Piece remove() {
-        Piece piece = this.piece;
+    Piece remove() {
+        Piece removedPiece = this.getPiece();
         this.piece = null;
-        return piece;
+        return removedPiece;
     }
 
-    public  Piece getPiece() {
+	boolean isEmpty() {
+		return this.getPiece() == null;
+	}
+
+	Color getColor() {
+        if (this.getPiece() == null){
+            return null;
+        }
+		return this.getPiece().getColor();
+    }
+    
+    Piece getPiece() {
         return this.piece;
     }
-
-	public boolean isEmpty() {
-		return this.piece == null;
-	}
-
-	public Color getColor() {
-        if (piece == null){
-            return Color.NONE;
-        }
-		return this.piece.getColor();
-	}
 
 }

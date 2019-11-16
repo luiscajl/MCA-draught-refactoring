@@ -3,13 +3,12 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+class Board implements PieceProvider {
 
     private static final int DIMENSION = 8;
-
     private Square[][] squares;
 
-    public Board() {
+    Board() {
         this.squares = new Square[this.getDimension()][this.getDimension()];
         for (int i = 0; i < this.getDimension(); i++) {
             for (int j = 0; j < this.getDimension(); j++) {
@@ -18,99 +17,52 @@ public class Board {
         }
     }
 
-    public void put(Coordinate coordinate, Piece piece) {
-        assert piece != null;
-        this.squares[coordinate.getRow()][coordinate.getColumn()].put(piece);
+    private Square getSquare(Coordinate coordinate){
+        assert coordinate!=null;
+        return this.squares[coordinate.getRow()][coordinate.getColumn()];
     }
 
-    public Piece remove(Coordinate coordinate) {
+    void put(Coordinate coordinate, Piece piece){
+        assert piece != null;
+        this.getSquare(coordinate).put(piece);
+    }
+
+    Piece remove(Coordinate coordinate) {
         assert this.getPiece(coordinate) != null;
         return this.getSquare(coordinate).remove();
     }
 
-    public void move(Coordinate origin, Coordinate target) {
+    void move(Coordinate origin, Coordinate target) {
         this.put(target, this.remove(origin));
     }
 
+    @Override
     public Piece getPiece(Coordinate coordinate) {
         return this.getSquare(coordinate).getPiece();
     }
 
+    @Override
     public boolean isEmpty(Coordinate coordinate) {
         return this.getSquare(coordinate).isEmpty();
     }
-
-    public Color getColor(Coordinate coordinate) {
+    
+    Color getColor(Coordinate coordinate) {
         return this.getSquare(coordinate).getColor();
     }
 
-    public List<Piece> getPieces(Color color) {
+    List<Piece> getPieces(Color color) {
         List<Piece> pieces = new ArrayList<Piece>();
-        for (Square x[] : squares) {
-            for (Square y : x) {
-                pieces.add(y.getPiece());
+        for (int i = 0; i < this.getDimension(); i++) {
+            for (int j = 0; j < this.getDimension(); j++) {
+                pieces.add(this.squares[i][j].getPiece());
             }
         }
-        return pieces;
-    }
-
-    public int getDimension() {
-        return Board.DIMENSION;
-    }
-
-    public Error isValidMovement(Coordinate origin, Coordinate target, Color color) {
-        assert origin != null && target != null && color != null;
-        if (!origin.isValid() || !target.isValid()) {
-            return Error.OUT_COORDINATE;
-        }
-        if (this.isEmpty(origin)) {
-            return Error.EMPTY_ORIGIN;
-        }
-        if (this.getColor(origin) != color) {
-            return Error.OPPOSITE_PIECE;
-        }
-        Error errorPiece = this.getPiece(origin).canMove(origin, target);
-        if (errorPiece != null) {
-            return errorPiece;
-        }
-        if (!this.isEmpty(target)) {
-            return Error.NOT_EMPTY_TARGET;
-        }
-        if (origin.diagonalDistance(target) == 2) {
-            Coordinate between = origin.betweenDiagonal(target);
-            if (this.getPiece(between) == null) {
-                return Error.EATING_EMPTY;
-            }
-            this.remove(between);
-        }
-        return null;
-    }
-
-    private String toStringHorizontalNumbers() {
-        String string = " ";
-        for (int j = 0; j < getDimension(); j++) {
-            string += j;
-        }
-        return string + "\n";
-    }
-
-    private String toStringHorizontalPiecesWithNumbers(int row) {
-        String string = "" + row;
-        for (int j = 0; j < getDimension(); j++) {
-            Piece piece = this.getPiece(new Coordinate(row, j));
-            if (piece == null) {
-                string += " ";
-            } else {
-                string += piece.getColor().getColorInitial();
-            }
-        }
-        return string + row + "\n";
-    }
-
-    private Square getSquare(Coordinate coordinate) {
-        assert coordinate != null && coordinate.isValid();
-        return this.squares[coordinate.getRow()][coordinate.getColumn()];
-    }
+		return pieces;
+	}
+    
+    int getDimension() {
+		return Board.DIMENSION;
+	}
 
     @Override
     public String toString() {
@@ -121,6 +73,28 @@ public class Board {
         }
         string += this.toStringHorizontalNumbers();
         return string;
+    }
+
+    private String toStringHorizontalNumbers(){
+        String string = " ";
+        for (int j = 0; j < Board.DIMENSION; j++) {
+            string += j;
+        }
+        return string + "\n";
+    }
+
+    private String toStringHorizontalPiecesWithNumbers(int row){
+        String string = "" + row;
+        for (int j = 0; j < this.getDimension(); j++) {
+            Piece piece = this.getPiece(new Coordinate(row, j));
+            if (piece == null) {
+                string += " ";
+            } else {
+                final String[] letters = {"b","n"};
+                string += letters[piece.getColor().ordinal()];
+            }
+        }
+        return string + row + "\n";
     }
 
 }

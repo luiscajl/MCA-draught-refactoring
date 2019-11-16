@@ -10,11 +10,11 @@ import es.urjccode.mastercloudapps.adcs.draughts.models.StateValue;
 
 public class StartControllerTest {
 
-    @Test
+     @Test
     public void givenStartControllerWhenStartGameThenChangeState() {
         Game game = new Game();
         State state = new State();
-        StartController startController = new StartController(game,state);
+        StartController startController = new StartController(game, state);
         assertEquals(StateValue.INITIAL, state.getValueState());
         startController.start();
         assertEquals(StateValue.IN_GAME, state.getValueState());

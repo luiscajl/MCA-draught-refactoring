@@ -4,7 +4,7 @@ import es.urjccode.mastercloudapps.adcs.draughts.controllers.Logic;
 import es.urjccode.mastercloudapps.adcs.draughts.controllers.Controller;
 import es.urjccode.mastercloudapps.adcs.draughts.views.View;
 
-public class Draughts {
+class Draughts {
     
     private View view;
 

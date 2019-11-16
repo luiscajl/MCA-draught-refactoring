@@ -13,35 +13,36 @@ public class PlayController extends Controller {
 		super(game, state);
 	}
 
-	public Error move(Coordinate origin, Coordinate target) {
-		Error error = game.isvalidMovement(origin, target);
-		if (error == null) {
-			game.move(origin, target);
-			if (isBlocked()) {
-				state.next();
-			}
+	public void move(Coordinate origin, Coordinate target) {
+		assert this.isCorrect(origin, target) == null;
+		this.game.move(origin, target);
+		if (this.game.isBlocked()) {
+			this.state.next();
 		}
-		return error;
 	}
 
+	public Error isCorrect(Coordinate origin, Coordinate target){
+		assert origin != null;
+		assert target != null;
+		return this.game.isCorrect(origin, target);
+	}	
+
 	public Piece getPiece(Coordinate coordinate) {
-		return game.getPiece(coordinate);
+		assert coordinate != null;
+		return this.game.getPiece(coordinate);
 	}
 
 	public Color getColor() {
-		return game.getColor();
-	}
-
-	public String getColorName() {
-		return game.getColor().getName();
+		return this.game.getColor();
 	}
 
 	public boolean isBlocked() {
-		return game.isBlocked();
+		return this.game.isBlocked();
 	}
 
 	@Override
 	public void accept(ControllersVisitor controllersVisitor) {
+		assert controllersVisitor != null;
 		controllersVisitor.visit(this);
 	}
 
