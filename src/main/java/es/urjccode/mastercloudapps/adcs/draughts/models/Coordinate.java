@@ -1,5 +1,8 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Coordinate {
 
     private int row;
@@ -30,12 +33,39 @@ public class Coordinate {
         return Math.abs(this.getRow() - coordinate.getRow());
     }
 
-    public Coordinate betweenDiagonal(Coordinate coordinate) {
-        assert coordinate != null && coordinate.isValid();
-        assert this.isValid() && this.diagonalDistance(coordinate) == 2;
-        int rowShift = coordinate.getRow() - this.getRow() < 0 ? -1 : 1;
-        int columnShift = coordinate.getColumn() - this.getColumn() < 0 ? -1 : 1;
-        return new Coordinate(this.getRow() + rowShift, this.getColumn() + columnShift);
+    public Coordinate betweenDiagonalPawn(Coordinate coordinate) {
+        assert coordinate != null;
+        assert this.diagonalDistance(coordinate) == 2;
+        int rowShift = 1;
+        if (coordinate.row - this.row < 0) {
+            rowShift = -1;
+        }
+        int columnShift = 1;
+        if (coordinate.column - this.column < 0) {
+            columnShift = -1;
+        }
+        return new Coordinate(this.row + rowShift, this.column + columnShift);
+    }
+
+    public List<Coordinate> betweenDiagonalDraught(Coordinate coordinate) {
+        assert coordinate != null;
+        assert this.diagonalDistance(coordinate) > 1;
+        List<Coordinate> coordinates = new ArrayList<>();
+        Coordinate auxCoordinate = this;
+        do {
+            int rowShift = 1;
+            if (coordinate.row - auxCoordinate.row < 0) {
+                rowShift = -1;
+            }
+            int columnShift = 1;
+            if (coordinate.column - auxCoordinate.column < 0) {
+                columnShift = -1;
+            }
+            auxCoordinate = new Coordinate(auxCoordinate.row + rowShift, auxCoordinate.column + columnShift);
+            coordinates.add(auxCoordinate);
+        } while (!auxCoordinate.equals(coordinate));
+
+        return coordinates;
     }
 
     public boolean isBlack() {

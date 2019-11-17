@@ -36,15 +36,61 @@ public class Game {
 		return null;
 	}
 
-	public Error isvalidMovement(Coordinate origin, Coordinate target) {
-		return board.isValidMovement(origin, target, getColor());
+	// public Error isvalidMovement(Coordinate origin, Coordinate target) {
+	// 	return board.isValidMovement(origin, target, getColor());
+	// }
+	public Error isCorrect(Coordinate origin, Coordinate target){
+		assert origin != null;
+		assert target != null;
+		if (board.isEmpty(origin)) {
+			return Error.EMPTY_ORIGIN;
+		}
+		if (this.turn.getColor() != this.board.getColor(origin)) {
+			return Error.OPPOSITE_PIECE;
+		}
+		return this.board.getPiece(origin).isCorrect(origin, target, board);
 	}
-
-	public void move(Coordinate origin, Coordinate target) {
-		assert origin != null && target != null;
+	
+	public Error move(Coordinate origin, Coordinate target) {
+		Error error = this.isCorrect(origin, target);
+		if (error == null) {
+			if (this.board.getPiece(origin) instanceof Pawn) {
+				this.movePawn(origin, target);
+			} else {
+				this.moveDraught(origin, target);
+			}
+		}
+		return error;		
+	}
+	public void movePawn(Coordinate origin, Coordinate target) {
+		if (origin.diagonalDistance(target) == 2) {
+			this.board.remove(origin.betweenDiagonalPawn(target));
+		}
 		this.board.move(origin, target);
+		if (this.board.getPiece(target).isLimit(target)){
+			this.board.remove(target);
+			this.board.put(target, new Draught(Color.WHITE));
+		}
 		this.turn.change();
 	}
+
+	public void moveDraught(Coordinate origin, Coordinate target) {
+		if (origin.diagonalDistance(target) > 1) {
+			this.board.remove(origin.betweenDiagonalDraught(target));
+		}
+		this.board.move(origin, target);
+		if (this.board.getPiece(target).isLimit(target)){
+			this.board.remove(target);
+			this.board.put(target, new Draught(Color.WHITE));
+		}
+		this.turn.change();
+	}
+
+	// public void move(Coordinate origin, Coordinate target) {
+	// 	assert origin != null && target != null;
+	// 	this.board.move(origin, target);
+	// 	this.turn.change();
+	// }
 
 	public Color getColor(Coordinate coordinate) {
 		return this.board.getColor(coordinate);

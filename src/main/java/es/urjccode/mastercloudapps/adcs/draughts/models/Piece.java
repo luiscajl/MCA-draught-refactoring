@@ -3,7 +3,7 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 public abstract class Piece {
 
 	
-	private Color color;
+	protected Color color;
 
 	public Piece(Color color) {
 		assert color != null;
