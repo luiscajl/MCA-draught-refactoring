@@ -2,6 +2,7 @@ package es.urjccode.mastercloudapps.adcs.draughts.controllers;
 
 import es.urjccode.mastercloudapps.adcs.draughts.models.Color;
 import es.urjccode.mastercloudapps.adcs.draughts.models.Coordinate;
+import es.urjccode.mastercloudapps.adcs.draughts.models.Draught;
 import es.urjccode.mastercloudapps.adcs.draughts.models.Game;
 import es.urjccode.mastercloudapps.adcs.draughts.models.State;
 
@@ -20,7 +21,7 @@ public abstract class Controller {
 	}
 
 	public String getColorInitial(Coordinate coordinate) {
-		return  this.game.getColor(coordinate).getColorInitial();
+		return  this.game.getColor(coordinate).getColorInitial(game.getPiece(coordinate) instanceof Draught);
 	}
 
 	public int getDimension() {

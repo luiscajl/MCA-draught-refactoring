@@ -66,34 +66,6 @@ public class Board {
         return Board.DIMENSION;
     }
 
-    // public Error isValidMovement(Coordinate origin, Coordinate target, Color color) {
-    //     assert origin != null && target != null && color != null;
-    //     if (!origin.isValid() || !target.isValid()) {
-    //         return Error.OUT_COORDINATE;
-    //     }
-    //     if (this.isEmpty(origin)) {
-    //         return Error.EMPTY_ORIGIN;
-    //     }
-    //     if (this.getColor(origin) != color) {
-    //         return Error.OPPOSITE_PIECE;
-    //     }
-    //     Error errorPiece = this.getPiece(origin).isCorrect(origin, target,null);
-    //     if (errorPiece != null) {
-    //         return errorPiece;
-    //     }
-    //     if (!this.isEmpty(target)) {
-    //         return Error.NOT_EMPTY_TARGET;
-    //     }
-    //     if (origin.diagonalDistance(target) == 2) {
-    //         Coordinate between = origin.betweenDiagonal(target);
-    //         if (this.getPiece(between) == null) {
-    //             return Error.EATING_EMPTY;
-    //         }
-    //         this.remove(between);
-    //     }
-    //     return null;
-    // }
-
     private String toStringHorizontalNumbers() {
         String string = " ";
         for (int j = 0; j < getDimension(); j++) {
@@ -109,7 +81,7 @@ public class Board {
             if (piece == null) {
                 string += " ";
             } else {
-                string += piece.getColor().getColorInitial();
+                string += piece.getColor().getColorInitial(piece instanceof Draught);
             }
         }
         return string + row + "\n";
