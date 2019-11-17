@@ -9,7 +9,7 @@ public class DOC {
 	}
 
 	public int get(){
-		return 666;
+		return attribute;
 	}
 
 	public void set(int value) {

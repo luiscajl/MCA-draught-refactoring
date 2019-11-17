@@ -4,11 +4,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-public class GameTest {
+public class GameWithPawnTest {
 
     private Game game;
 
-    public GameTest() {
+    public GameWithPawnTest() {
         game = new Game();
     }
 
@@ -55,12 +55,6 @@ public class GameTest {
     public void testGivenGameWhenConstructThenInitialDistribution() {
         assertEquals(Color.WHITE, game.getColor(new Coordinate(5, 0)));
         assertEquals(Color.BLACK, game.getColor(new Coordinate(2, 1)));
-    }
-
-    @Test()
-    public void testGivenGameWhenMoveWithOuterCoordinateThenOutCoordinateError() {
-        assertEquals(Error.OUT_COORDINATE,
-                this.advance(new Coordinate[][] { { new Coordinate(4, 7), new Coordinate(3, 8) }, }));
     }
 
     @Test
@@ -134,7 +128,9 @@ public class GameTest {
     @Test
     public void testGivenGameWhenMoveBadDistanceThenError() {
         assertEquals(Error.BAD_DISTANCE,
-                this.advance(new Coordinate[][] { { new Coordinate(5, 0), new Coordinate(2, 3) }, }));
+                this.advance(new Coordinate[][] { { new Coordinate(5, 6), new Coordinate(4, 7) },
+                        { new Coordinate(2, 3), new Coordinate(3, 2) },
+                        { new Coordinate(5, 0), new Coordinate(2, 3) }, }));
     }
 
 }
