@@ -69,7 +69,7 @@ public class Board {
         if (this.getColor(origin) != color) {
             return Error.OPPOSITE_PIECE;
         }
-        Error errorPiece = this.getPiece(origin).canMove(origin, target);
+        Error errorPiece = this.getPiece(origin).isCorrect(origin, target,null);
         if (errorPiece != null) {
             return errorPiece;
         }
