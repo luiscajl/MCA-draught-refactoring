@@ -36,9 +36,6 @@ public class Game {
 		return null;
 	}
 
-	// public Error isvalidMovement(Coordinate origin, Coordinate target) {
-	// 	return board.isValidMovement(origin, target, getColor());
-	// }
 	public Error isCorrect(Coordinate origin, Coordinate target){
 		assert origin != null;
 		assert target != null;
@@ -85,12 +82,6 @@ public class Game {
 		}
 		this.turn.change();
 	}
-
-	// public void move(Coordinate origin, Coordinate target) {
-	// 	assert origin != null && target != null;
-	// 	this.board.move(origin, target);
-	// 	this.turn.change();
-	// }
 
 	public Color getColor(Coordinate coordinate) {
 		return this.board.getColor(coordinate);
