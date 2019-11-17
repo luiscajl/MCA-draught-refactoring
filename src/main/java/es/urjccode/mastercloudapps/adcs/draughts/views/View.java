@@ -9,35 +9,33 @@ import es.urjccode.mastercloudapps.adcs.draughts.controllers.StartController;
 public class View implements ControllersVisitor {
 
     private StartView startView;
-    private PlayView playView;
+
+    private CommandView commandView;
+
     private ResumeView resumeView;
 
     public View(){
         this.startView = new StartView();
-        this.playView = new PlayView();
+        this.commandView = new CommandView();
         this.resumeView = new ResumeView();
     }
 
     public void interact(Controller controller) {
-        assert controller != null;
         controller.accept(this);
     }
 
     @Override
     public void visit(StartController startController) {
-        assert startController != null;
         this.startView.interact(startController);
     }
 
     @Override
     public void visit(PlayController playController) {
-        assert playController != null;
-        this.playView.interact(playController);
+        this.commandView.interact(playController);
     }
 
     @Override
     public void visit(ResumeController resumeController) {
-        assert resumeController != null;
         this.resumeView.interact(resumeController);
     }
 

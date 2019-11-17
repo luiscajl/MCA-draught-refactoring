@@ -9,14 +9,10 @@ class Turn {
     }
 
     void change(){
-        this.color = Color.values()[(this.color.ordinal()+1)%2];
+        this.color = color.changeColor();
     }
 
-    boolean isColor(Color color2) {
-		return false;
-    }
-    
-    Color getColor() {
+    public Color getColor() {
 		return this.color;
     }
     
@@ -24,5 +20,9 @@ class Turn {
     public String toString(){
         return this.color.name();
     }
+
+	public boolean isColor(Color color2) {
+		return false;
+	}
 
 }

@@ -3,6 +3,7 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 public class Game {
 
 	private Board board;
+
 	private Turn turn;
 
 	public Game() {
@@ -20,7 +21,6 @@ public class Game {
 	}
 
 	private Piece getInitialPiece(Coordinate coordinate) {
-		assert coordinate != null;
 		if (coordinate.isBlack()) {
 			final int row = coordinate.getRow();
 			Color color = null;
@@ -36,38 +36,31 @@ public class Game {
 		return null;
 	}
 
+	public Error isvalidMovement(Coordinate origin, Coordinate target) {
+		return board.isValidMovement(origin, target, getColor());
+	}
+
 	public void move(Coordinate origin, Coordinate target) {
-		assert this.isCorrect(origin, target) == null;
-		if (origin.diagonalDistance(target) == 2) {
-			this.board.remove(origin.betweenDiagonal(target));
-		}
+		assert origin != null && target != null;
 		this.board.move(origin, target);
-		if (this.board.getPiece(target).isLimit(target)){
-			this.board.remove(target);
-			this.board.put(target, new Draught(Color.WHITE));
-		}
 		this.turn.change();
 	}
 
-	public Error isCorrect(Coordinate origin, Coordinate target){
-		assert origin != null;
-		assert target != null;
-		if (board.isEmpty(origin)) {
-			return Error.EMPTY_ORIGIN;
-		}
-		if (this.turn.getColor() != this.board.getColor(origin)) {
-			return Error.OPPOSITE_PIECE;
-		}
-		return this.board.getPiece(origin).isCorrect(origin, target, board);
+	public Color getColor(Coordinate coordinate) {
+		return this.board.getColor(coordinate);
 	}
 
-	public Color getColor(Coordinate coordinate) {
-		assert coordinate != null;
-		return this.board.getColor(coordinate);
+	@Override
+	public String toString() {
+		return this.board + "\n" + this.turn;
 	}
 
 	public Color getColor() {
 		return this.turn.getColor();
+	}
+
+	public Piece getPiece(Coordinate coordinate) {
+		return this.board.getPiece(coordinate);
 	}
 
 	public boolean isBlocked() {
@@ -76,16 +69,6 @@ public class Game {
 
 	public int getDimension() {
 		return this.board.getDimension();
-	}
-
-	public Piece getPiece(Coordinate coordinate) {
-		assert coordinate != null;
-		return this.board.getPiece(coordinate);
-	}
-
-	@Override
-	public String toString() {
-		return this.board + "\n" + this.turn;
 	}
 
 }
